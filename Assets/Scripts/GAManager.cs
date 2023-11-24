@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
 using System.Globalization;
-using static UnityEditor.PlayerSettings;
 
 public class GAManager : MonoBehaviour
 {
