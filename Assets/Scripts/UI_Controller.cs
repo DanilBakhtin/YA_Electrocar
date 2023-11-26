@@ -11,6 +11,7 @@ public class UI_Controller : MonoBehaviour
     [SerializeField] private GameObject finishPanel;
     [SerializeField] private GameObject failPanel;
     [SerializeField] private Text textTimeFinish;
+    [SerializeField] private GameObject sounds;
 
     private bool isPause;
     private bool isFinish;
@@ -41,6 +42,7 @@ public class UI_Controller : MonoBehaviour
         isPause = false;
         pausePanel.SetActive(isPause);
         Time.timeScale = 1;
+        playSounds();
     }
 
     public void pauseGame()
@@ -48,6 +50,7 @@ public class UI_Controller : MonoBehaviour
         isPause = true;
         pausePanel.SetActive(isPause);
         Time.timeScale = 0;
+        stopSounds();
     }
     public void RestartGame()
     {
@@ -69,20 +72,30 @@ public class UI_Controller : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
-
     public void finishTrace(float time)
     {
         Time.timeScale = 0;
         isFinish = true;
         finishPanel.SetActive(true);
         textTimeFinish.text = time.ToString("F2") + " s";
+        stopSounds();
 
     }
-
     public void failTrace()
     {
         Time.timeScale = 0;
         isFail = true;
         failPanel.SetActive(true);
+        stopSounds();
+    }
+
+    private void stopSounds()
+    {
+        AudioListener.pause = true;
+    }
+
+    public void playSounds()
+    {
+        AudioListener.pause = false;
     }
 }

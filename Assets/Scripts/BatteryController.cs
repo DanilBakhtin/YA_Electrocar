@@ -19,7 +19,7 @@ public class BatteryController : MonoBehaviour
     [SerializeField] private float jumpForce;
     private bool isGround;
 
-    [SerializeField] private Generator generator;
+    public Generator generator;
 
     private PrometeoCarController CarController;
     private Rigidbody rb;
@@ -29,6 +29,8 @@ public class BatteryController : MonoBehaviour
     private Trap trap;
 
     private HUD_Controller hud;
+
+    [SerializeField] private AudioSource electricitySound;
 
     void Start()
     {
@@ -41,6 +43,7 @@ public class BatteryController : MonoBehaviour
         currnetEnergy = maxEnergy;
         actionOff();
         electrocity.Stop();
+        electricitySound.Stop();
 
         LightHeadOff();
 
@@ -69,15 +72,15 @@ public class BatteryController : MonoBehaviour
         if (currnetEnergy <= 0)
         {   
             LightHeadOff();
-            rb.isKinematic = true;
             isLossEnergy = true;
-            
+            CarController.isLossEnergy = isLossEnergy;
+
         }
 
         if (isLossEnergy && !generator.isCharge && currnetEnergy > 0f)
         {
-            rb.isKinematic = false;
             isLossEnergy = false;
+            CarController.isLossEnergy = isLossEnergy;
         }
 
         hud.updateTextEnergy(Mathf.RoundToInt(currnetEnergy));
@@ -163,10 +166,10 @@ public class BatteryController : MonoBehaviour
     IEnumerator electrocityCoroutine()
     {
         electrocity.Play();
-
-        yield return new WaitForSeconds(2);
-
+        electricitySound.Play();
+        yield return new WaitForSeconds(1);
         electrocity.Stop();
+        electricitySound.Stop();
     }
     public void LightHeadOn()
     {
@@ -205,12 +208,12 @@ public class BatteryController : MonoBehaviour
 
         if (!generator.isCharge)
         {
-            rb.isKinematic = true;
+            CarController.isLossEnergy = true;
             generator.startCharging(this);
         }
         else
         {
-            rb.isKinematic = false;
+            CarController.isLossEnergy = false;
             generator.stopCharging();
         }
     }

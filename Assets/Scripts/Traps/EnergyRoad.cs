@@ -32,8 +32,9 @@ public class EnergyRoad : MonoBehaviour
         yield return new WaitForSeconds(timeEnergyGive);
 
         if (isCharge)
-        {
-            player.GetComponentInParent<BatteryController>().addEnergy(energyGive);
+        {   
+            if (!player.GetComponentInParent<BatteryController>().generator.isCharge)
+                player.GetComponentInParent<BatteryController>().addEnergy(energyGive);
             StartCoroutine(GiveEnergyCoroutine(player));
         }
     }

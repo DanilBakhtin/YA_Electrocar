@@ -158,9 +158,14 @@ public class PrometeoCarController : MonoBehaviour
       WheelFrictionCurve RRwheelFriction;
       float RRWextremumSlip;
 
+
+
+    public bool isLossEnergy;
     // Start is called before the first frame update
     void Start()
     {
+
+      isLossEnergy = false;
       //In this part, we set the 'carRigidbody' value with the Rigidbody attached to this
       //gameObject. Also, we define the center of mass of the car with the Vector3 given
       //in the inspector.
@@ -287,7 +292,8 @@ public class PrometeoCarController : MonoBehaviour
       In this part of the code we specify what the car needs to do if the user presses W (throttle), S (reverse),
       A (turn left), D (turn right) or Space bar (handbrake).
       */
-      if (useTouchControls && touchControlsSetup){
+      if (useTouchControls && touchControlsSetup)
+        {
 
         if(throttlePTI.buttonPressed){
           CancelInvoke("DecelerateCar");
@@ -325,14 +331,15 @@ public class PrometeoCarController : MonoBehaviour
           ResetSteeringAngle();
         }
 
-      }else{
+      }else
+        {
 
-        if(Input.GetKey(KeyCode.W)){
+        if(Input.GetKey(KeyCode.W) && !isLossEnergy){
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
           GoForward();
         }
-        if(Input.GetKey(KeyCode.S)){
+        if(Input.GetKey(KeyCode.S) && !isLossEnergy){
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
           GoReverse();
@@ -344,7 +351,7 @@ public class PrometeoCarController : MonoBehaviour
         if(Input.GetKey(KeyCode.D)){
           TurnRight();
         }
-        if(Input.GetKey(KeyCode.Space)){
+        if(Input.GetKey(KeyCode.Space) && !isLossEnergy){
           CancelInvoke("DecelerateCar");
           deceleratingCar = false;
           Handbrake();
@@ -355,7 +362,7 @@ public class PrometeoCarController : MonoBehaviour
         if((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))){
           ThrottleOff();
         }
-        if((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)) && !Input.GetKey(KeyCode.Space) && !deceleratingCar){
+        if(((!Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W)) && !Input.GetKey(KeyCode.Space) && !deceleratingCar) || (isLossEnergy && !deceleratingCar)) {
           InvokeRepeating("DecelerateCar", 0f, 0.1f);
           deceleratingCar = true;
         }
@@ -497,6 +504,7 @@ public class PrometeoCarController : MonoBehaviour
 
     // This method apply positive torque to the wheels in order to go forward.
     public void GoForward(){
+
       //If the forces aplied to the rigidbody in the 'x' asis are greater than
       //3f, it means that the car is losing traction, then the car will start emitting particle systems.
       if(Mathf.Abs(localVelocityX) > 2.5f){
