@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Trace_1.unity
     guid: 1ad9f588ed88bc445bef4867d21a0868
+  - enabled: 1
+    path: Assets/Scenes/Trace_2.unity
+    guid: 024ba25e86db33c4fb3b6b3cc5681093
   m_configObjects: {}

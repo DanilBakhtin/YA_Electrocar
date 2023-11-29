@@ -10,13 +10,13 @@ public class GAManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance) Destroy(gameObject);
+
         instance = this;
         DontDestroyOnLoad(this);
     }
     void Start()
     {
-        float test = 1.43234f;
-        Debug.Log(test.ToString("0.00", CultureInfo.GetCultureInfo("en-US")));
         GameAnalytics.Initialize();
     }
 

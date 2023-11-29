@@ -1,0 +1,2 @@
+Build path: C:/Users/Danil/Desktop/EC_BuildWeb
+Build number: 146

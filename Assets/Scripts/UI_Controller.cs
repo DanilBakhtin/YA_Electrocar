@@ -74,12 +74,12 @@ public class UI_Controller : MonoBehaviour
     }
     public void finishTrace(float time)
     {
+        stopSounds();
         Time.timeScale = 0;
         isFinish = true;
         finishPanel.SetActive(true);
         textTimeFinish.text = time.ToString("F2") + " s";
-        stopSounds();
-
+        Adv.ShowAdv();
     }
     public void failTrace()
     {
@@ -92,10 +92,12 @@ public class UI_Controller : MonoBehaviour
     private void stopSounds()
     {
         AudioListener.pause = true;
+        AudioListener.volume = 0;
     }
 
     public void playSounds()
     {
         AudioListener.pause = false;
+        AudioListener.volume = 1;
     }
 }
