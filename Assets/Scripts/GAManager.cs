@@ -32,7 +32,6 @@ public class GAManager : MonoBehaviour
 
     public void onLevelFail(int _level, Vector3 pos)
     {
-
         string str_pos = "(" + convertFloat(pos.x) + "_" + convertFloat(pos.y) + "_" + convertFloat(pos.z) + ")";
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Level " + _level,"Position " + str_pos);
     }
