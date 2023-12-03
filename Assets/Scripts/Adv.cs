@@ -13,7 +13,7 @@ public class Adv : MonoBehaviour
 
     // Показываем полноэкранную рекламу на старте
     private void Start(){
-        ShowAdv();
+        //ShowAdv();
     }
 
     // Fullscreen
